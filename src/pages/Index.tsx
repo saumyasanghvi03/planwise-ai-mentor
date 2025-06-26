@@ -10,17 +10,17 @@ import { MarketAnalysis } from '@/components/MarketAnalysis';
 import { FinancialPlanning } from '@/components/FinancialPlanning';
 import { ActionPlan } from '@/components/ActionPlan';
 import { AIInsights } from '@/components/AIInsights';
-import { lightbulb, briefcase, chart-bar, settings, file-text } from 'lucide-react';
+import { Lightbulb, Briefcase, BarChart3, Settings, FileText } from 'lucide-react';
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState('overview');
   const [planProgress, setPlanProgress] = useState(25);
 
   const planSections = [
-    { id: 'overview', label: 'Business Overview', icon: briefcase, completed: true },
-    { id: 'market', label: 'Market Analysis', icon: chart-bar, completed: false },
-    { id: 'financial', label: 'Financial Planning', icon: chart-bar, completed: false },
-    { id: 'action', label: 'Action Plan', icon: file-text, completed: false },
+    { id: 'overview', label: 'Business Overview', icon: Briefcase, completed: true },
+    { id: 'market', label: 'Market Analysis', icon: BarChart3, completed: false },
+    { id: 'financial', label: 'Financial Planning', icon: BarChart3, completed: false },
+    { id: 'action', label: 'Action Plan', icon: FileText, completed: false },
   ];
 
   return (
@@ -31,7 +31,7 @@ const Index = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
-                <lightbulb className="w-6 h-6 text-white" />
+                <Lightbulb className="w-6 h-6 text-white" />
               </div>
               <div>
                 <h1 className="text-2xl font-bold text-gray-900">AI Business Planner</h1>
