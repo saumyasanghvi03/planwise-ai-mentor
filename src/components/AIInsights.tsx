@@ -1,9 +1,8 @@
-
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { lightbulb } from 'lucide-react';
+import { Lightbulb } from 'lucide-react';
 
 interface AIInsightsProps {
   activeSection: string;
@@ -85,7 +84,7 @@ export const AIInsights = ({ activeSection }: AIInsightsProps) => {
         <CardHeader className="pb-3">
           <CardTitle className="flex items-center space-x-2 text-lg">
             <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center">
-              <lightbulb className="w-4 h-4 text-white" />
+              <Lightbulb className="w-4 h-4 text-white" />
             </div>
             <span>{insights.title}</span>
           </CardTitle>
