@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -8,7 +7,11 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 
-export const BusinessOverview = () => {
+interface BusinessOverviewProps {
+  onNext: () => void;
+}
+
+export const BusinessOverview = ({ onNext }: BusinessOverviewProps) => {
   const [formData, setFormData] = useState({
     businessName: '',
     businessType: '',
@@ -138,7 +141,10 @@ export const BusinessOverview = () => {
             <Button variant="outline" disabled>
               Previous
             </Button>
-            <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
+            <Button 
+              onClick={onNext}
+              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+            >
               Next: Market Analysis
             </Button>
           </div>

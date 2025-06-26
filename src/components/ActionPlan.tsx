@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -8,7 +7,12 @@ import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
 
-export const ActionPlan = () => {
+interface ActionPlanProps {
+  onPrevious: () => void;
+  onComplete: () => void;
+}
+
+export const ActionPlan = ({ onPrevious, onComplete }: ActionPlanProps) => {
   const [milestones, setMilestones] = useState(['', '', '']);
   const [tasks, setTasks] = useState([
     { text: 'Register business name and legal structure', completed: false },
@@ -118,10 +122,13 @@ export const ActionPlan = () => {
           </div>
 
           <div className="flex justify-between pt-6 border-t">
-            <Button variant="outline">
+            <Button variant="outline" onClick={onPrevious}>
               Previous: Financial Planning
             </Button>
-            <Button className="bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700">
+            <Button 
+              onClick={onComplete}
+              className="bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700"
+            >
               Complete Plan
             </Button>
           </div>

@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -8,7 +7,12 @@ import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
-export const MarketAnalysis = () => {
+interface MarketAnalysisProps {
+  onPrevious: () => void;
+  onNext: () => void;
+}
+
+export const MarketAnalysis = ({ onPrevious, onNext }: MarketAnalysisProps) => {
   const [competitors, setCompetitors] = useState(['', '', '']);
   const [swotData, setSWOTData] = useState({
     strengths: '',
@@ -178,10 +182,13 @@ export const MarketAnalysis = () => {
           </Tabs>
 
           <div className="flex justify-between pt-6 border-t">
-            <Button variant="outline">
+            <Button variant="outline" onClick={onPrevious}>
               Previous: Overview
             </Button>
-            <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
+            <Button 
+              onClick={onNext}
+              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+            >
               Next: Financial Planning
             </Button>
           </div>
