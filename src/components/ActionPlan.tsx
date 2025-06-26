@@ -7,50 +7,30 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 export const ActionPlan = () => {
-  const [milestones, setMilestones] = useState([
-    { task: 'Complete business registration', deadline: '', priority: 'high', completed: false },
-    { task: 'Secure initial funding', deadline: '', priority: 'high', completed: false },
-    { task: 'Develop MVP/prototype', deadline: '', priority: 'medium', completed: false },
-    { task: 'Launch marketing campaign', deadline: '', priority: 'medium', completed: false },
-    { task: 'Hire first employees', deadline: '', priority: 'low', completed: false },
+  const [milestones, setMilestones] = useState(['', '', '']);
+  const [tasks, setTasks] = useState([
+    { text: 'Register business name and legal structure', completed: false },
+    { text: 'Open business bank account', completed: false },
+    { text: 'Create MVP (Minimum Viable Product)', completed: false },
+    { text: 'Launch marketing campaign', completed: false },
   ]);
 
-  const [risks, setRisks] = useState([
-    { risk: '', mitigation: '', probability: 'medium' },
-    { risk: '', mitigation: '', probability: 'medium' },
-    { risk: '', mitigation: '', probability: 'medium' },
-  ]);
+  const addMilestone = () => {
+    setMilestones([...milestones, '']);
+  };
 
-  const updateMilestone = (index: number, field: string, value: string | boolean) => {
+  const updateMilestone = (index: number, value: string) => {
     const updated = [...milestones];
-    updated[index] = { ...updated[index], [field]: value };
+    updated[index] = value;
     setMilestones(updated);
   };
 
-  const updateRisk = (index: number, field: string, value: string) => {
-    const updated = [...risks];
-    updated[index] = { ...updated[index], [field]: value };
-    setRisks(updated);
-  };
-
-  const addMilestone = () => {
-    setMilestones([...milestones, { task: '', deadline: '', priority: 'medium', completed: false }]);
-  };
-
-  const addRisk = () => {
-    setRisks([...risks, { risk: '', mitigation: '', probability: 'medium' }]);
-  };
-
-  const getPriorityColor = (priority: string) => {
-    switch (priority) {
-      case 'high': return 'bg-red-100 text-red-800 border-red-200';
-      case 'medium': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-      case 'low': return 'bg-green-100 text-green-800 border-green-200';
-      default: return 'bg-gray-100 text-gray-800 border-gray-200';
-    }
+  const toggleTask = (index: number) => {
+    const updated = [...tasks];
+    updated[index].completed = !updated[index].completed;
+    setTasks(updated);
   };
 
   return (
@@ -58,151 +38,83 @@ export const ActionPlan = () => {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center justify-between">
-            Action Plan & Implementation
+            Action Plan
             <Badge variant="outline" className="bg-purple-50 text-purple-700 border-purple-200">
               Step 4 of 4
             </Badge>
           </CardTitle>
           <CardDescription>
-            Create a detailed roadmap with milestones, timelines, and risk management strategies.
+            Create a roadmap with specific milestones, tasks, and timelines to launch your business.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
-          {/* Key Milestones */}
-          <div>
-            <div className="flex items-center justify-between mb-4">
-              <Label className="text-lg font-medium">Key Milestones & Tasks</Label>
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <Label>Key Milestones</Label>
               <Button variant="outline" size="sm" onClick={addMilestone}>
                 Add Milestone
               </Button>
             </div>
             
-            <div className="space-y-4">
-              {milestones.map((milestone, index) => (
-                <div key={index} className="border rounded-lg p-4 space-y-3">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-3 flex-1">
-                      <Checkbox
-                        checked={milestone.completed}
-                        onCheckedChange={(checked) => updateMilestone(index, 'completed', checked)}
-                      />
-                      <Input
-                        placeholder="Task or milestone"
-                        value={milestone.task}
-                        onChange={(e) => updateMilestone(index, 'task', e.target.value)}
-                        className="flex-1"
-                      />
-                    </div>
-                    <Badge variant="outline" className={getPriorityColor(milestone.priority)}>
-                      {milestone.priority}
-                    </Badge>
-                  </div>
-                  
-                  <div className="grid grid-cols-2 gap-3 pl-6">
-                    <div className="space-y-1">
-                      <Label className="text-sm">Deadline</Label>
-                      <Input
-                        type="date"
-                        value={milestone.deadline}
-                        onChange={(e) => updateMilestone(index, 'deadline', e.target.value)}
-                      />
-                    </div>
-                    <div className="space-y-1">
-                      <Label className="text-sm">Priority</Label>
-                      <Select 
-                        value={milestone.priority} 
-                        onValueChange={(value) => updateMilestone(index, 'priority', value)}
-                      >
-                        <SelectTrigger>
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="high">High</SelectItem>
-                          <SelectItem value="medium">Medium</SelectItem>
-                          <SelectItem value="low">Low</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </div>
+            {milestones.map((milestone, index) => (
+              <div key={index} className="space-y-2">
+                <Input
+                  placeholder={`Milestone ${index + 1} (e.g., Launch MVP in 3 months)`}
+                  value={milestone}
+                  onChange={(e) => updateMilestone(index, e.target.value)}
+                />
+              </div>
+            ))}
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="timeline">Launch Timeline</Label>
+            <Textarea
+              id="timeline"
+              placeholder="Describe your timeline for launching the business, key dates, and deadlines..."
+              rows={3}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="resources">Required Resources</Label>
+            <Textarea
+              id="resources"
+              placeholder="What resources do you need? Team members, tools, partnerships, etc."
+              rows={3}
+            />
+          </div>
+
+          <div className="space-y-4">
+            <Label>Next Steps Checklist</Label>
+            <div className="space-y-3">
+              {tasks.map((task, index) => (
+                <div key={index} className="flex items-center space-x-2">
+                  <Checkbox
+                    id={`task-${index}`}
+                    checked={task.completed}
+                    onCheckedChange={() => toggleTask(index)}
+                  />
+                  <label
+                    htmlFor={`task-${index}`}
+                    className={`text-sm ${
+                      task.completed ? 'line-through text-gray-500' : 'text-gray-900'
+                    }`}
+                  >
+                    {task.text}
+                  </label>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Risk Management */}
-          <div>
-            <div className="flex items-center justify-between mb-4">
-              <Label className="text-lg font-medium">Risk Management</Label>
-              <Button variant="outline" size="sm" onClick={addRisk}>
-                Add Risk
-              </Button>
-            </div>
-            
-            <div className="space-y-4">
-              {risks.map((risk, index) => (
-                <div key={index} className="border rounded-lg p-4 space-y-3">
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                    <div className="space-y-1">
-                      <Label className="text-sm">Risk/Challenge</Label>
-                      <Textarea
-                        placeholder="Describe the potential risk..."
-                        value={risk.risk}
-                        onChange={(e) => updateRisk(index, 'risk', e.target.value)}
-                        rows={2}
-                      />
-                    </div>
-                    <div className="space-y-1">
-                      <Label className="text-sm">Mitigation Strategy</Label>
-                      <Textarea
-                        placeholder="How will you address this risk?"
-                        value={risk.mitigation}
-                        onChange={(e) => updateRisk(index, 'mitigation', e.target.value)}
-                        rows={2}
-                      />
-                    </div>
-                    <div className="space-y-1">
-                      <Label className="text-sm">Probability</Label>
-                      <Select 
-                        value={risk.probability} 
-                        onValueChange={(value) => updateRisk(index, 'probability', value)}
-                      >
-                        <SelectTrigger>
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="high">High</SelectItem>
-                          <SelectItem value="medium">Medium</SelectItem>
-                          <SelectItem value="low">Low</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Success Metrics */}
-          <div>
-            <Label className="text-lg font-medium mb-4 block">Success Metrics & KPIs</Label>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label className="text-sm">Revenue Target (Year 1)</Label>
-                <Input placeholder="$0" />
-              </div>
-              <div className="space-y-2">
-                <Label className="text-sm">Customer Target (Year 1)</Label>
-                <Input placeholder="0 customers" />
-              </div>
-              <div className="space-y-2">
-                <Label className="text-sm">Market Share Goal</Label>
-                <Input placeholder="0%" />
-              </div>
-              <div className="space-y-2">
-                <Label className="text-sm">Employee Count Target</Label>
-                <Input placeholder="0 employees" />
-              </div>
-            </div>
+          <div className="space-y-2">
+            <Label htmlFor="risks">Risk Assessment & Mitigation</Label>
+            <Textarea
+              id="risks"
+              placeholder="What are the main risks to your business and how will you address them?"
+              rows={4}
+            />
           </div>
 
           <div className="flex justify-between pt-6 border-t">
@@ -210,7 +122,7 @@ export const ActionPlan = () => {
               Previous: Financial Planning
             </Button>
             <Button className="bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700">
-              Complete Business Plan
+              Complete Plan
             </Button>
           </div>
         </CardContent>
